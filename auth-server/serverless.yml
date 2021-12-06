@@ -22,7 +22,9 @@ service: auth-server
 
 provider:
   name: aws
-  runtime: nodejs10.x
+  runtime: nodejs12.x
+  region: eu-east-1
+  timeout: 60
 
 # you can overwrite defaults here
 #  stage: dev
@@ -45,7 +47,11 @@ provider:
 #            - "/*"
 
 # you can define service wide environment variables here
-#  environment:
+  environment:
+    CLIENT_ID: ${file(config.json):CLIENT_ID}
+    CLIENT_SECRET: ${file(config.json):CLIENT_SECRET}
+    PROJECT_ID: ${file(config.json):PROJECT_ID}
+    CALENDAR_ID: ${file(config.json):CALENDAR_ID}
 #    variable1: value1
 
 # you can add packaging information here
@@ -58,8 +64,25 @@ provider:
 #    - exclude-me-dir/**
 
 functions:
-  hello:
-    handler: handler.hello
+  getAuthURL:
+    handler: handler.getAuthURL
+    events:
+      - http:
+          path: api/get-auth-url
+          method: get
+  getAccessToken:
+    handler: handler.getAccessToken
+    events:
+      - http:
+          path: api/token/{code}
+          method: get
+  getCalendarEvents:
+    handler: handler.getCalendarEvents
+    events:
+      - http:
+          path: api/get-events/{access_token}
+          method: get
+
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details
