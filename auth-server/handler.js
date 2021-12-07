@@ -22,7 +22,7 @@ const credentials = {
   redirect_uris: ["https://cpalmerbelcher.github.io/meet1/"],
   javascript_origins: [
     "https://cpalmerbelcher.github.io", 
-    "http://localhost:8080"
+    "http://localhost:3000"
   ],
 };
 const { client_secret, client_id, redirect_uris, calendar_id } = credentials;
