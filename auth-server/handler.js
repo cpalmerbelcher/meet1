@@ -22,7 +22,6 @@ const credentials = {
   redirect_uris: ["https://cpalmerbelcher.github.io/meet1/"],
   javascript_origins: [
     "https://cpalmerbelcher.github.io", 
-    "http://localhost:8080",
     "http://127.0.0.1:8080",
   ],
 };
@@ -57,6 +56,7 @@ module.exports.getAuthURL = async () => {
     statusCode: 200,
     headers: {
       "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Credentials": true,
     },
     body: JSON.stringify({
       authUrl: authUrl,
