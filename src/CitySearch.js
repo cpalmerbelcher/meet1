@@ -8,7 +8,7 @@ class CitySearch extends Component {
 
   handleInputChanged = (event) => {
     const value = event.target.value;
-    const suggestions = this.props.locations.filter((location) => {
+    const suggestions = this.props.locations && this.props.locations.filter((location) => {
       return location.toUpperCase().indexOf(value.toUpperCase()) > -1;
     });
     this.setState({
@@ -34,9 +34,9 @@ class CitySearch extends Component {
           />
 
         <ul className="suggestions">
-        {this.state.suggestions.map((suggestion) => (
+        {this.state.suggestions && this.state.suggestions.map((suggestion) => (
           <li
-            key={suggestion}
+            key="{suggestion}"
             onClick={() => this.handleItemClicked(suggestion)}
           >{suggestion}</li>
         ))}
