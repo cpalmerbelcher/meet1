@@ -25,6 +25,15 @@
     "workbox-strategies": "^5.1.4",
     "workbox-streams": "^5.1.4"
   },
+
+  "jest": {
+    "collectCoverageFrom": [
+        "!src/index.js",
+        "!src/reportWebVitals.js",
+        "!src/service-worker.js",
+        "!src/serviceWorkerRegistration.js"
+    ]
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

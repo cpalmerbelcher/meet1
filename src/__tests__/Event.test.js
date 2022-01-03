@@ -1,42 +1,50 @@
 import React from "react";
 import { shallow } from "enzyme";
-import Event from "../Event";
 import { mockData } from "../mock-data";
+import Event from "../Event";
 
-describe("<Event /> component", () => {
-    let EventWrapper;
-    beforeAll(() => {
-      EventWrapper = shallow(<Event event={mockData[1]} />);
+describe('<Event /> component', () => {
+  let EventWrapper;
+  let event = mockData[0];
+  beforeAll(() => {
+    EventWrapper = shallow(<Event event={event} />);
+  });
+
+  // Test cases that test basic information
+  test('renders summary', () => {
+    expect(EventWrapper.find('.summary')).toHaveLength(1);
+  });
+  test('renders start-date and timezone', () => {
+    expect(EventWrapper.find('.start-date')).toHaveLength(1);
+  });
+  test('renders location', () => {
+    expect(EventWrapper.find('.location')).toHaveLength(1);
+  });
+  test('renders the show/hide details button', () => {
+    expect(EventWrapper.find('.showLess-details-btn')).toHaveLength(1);
+  });
+
+  //Scenario 1
+  test('the event element is collapsed by default', () => {
+    EventWrapper.setState({
+      collapsed: true,
     });
-
-    test('the element is collapsed by default', () => {
-        expect(EventWrapper.find(".summary")).toHaveLength(1);
-       });
-
-    test('does summary element render event summary', () => {
-        expect(EventWrapper.find(".event-summary")).toHaveLength(1);
+    expect(EventWrapper.state('collapsed')).toBe(true);
+  });
+  //Scenario 2
+  test('click on a showMore-details-btn button to expand the event details', () => {
+    EventWrapper.setState({
+      collapsed: true,
     });
-
-    test('does summary element render event location', () => {
-        expect(EventWrapper.find(".event-date")).toHaveLength(1);
+    EventWrapper.find('.showLess-details-btn').simulate('click');
+    expect(EventWrapper.state('collapsed')).toBe(false);
+  });
+  //Scenario 3
+  test('click on showMore-details-btn button to hide the evet details', () => {
+    EventWrapper.setState({
+      collapsed: false,
     });
-
-    test('does summary render showMore button', () => {
-        expect(EventWrapper.find(".showMore")).toHaveLength(1);
-    });
-
-    test('showMore button if clicked - renders expanded view', () => {
-        EventWrapper.find(".showMore").simulate("click");
-        expect(EventWrapper.find(".event-description")).toHaveLength(1);
-    });    
-
-    test('the element renders hideDetails button', () => {
-        expect(EventWrapper.find(".showLess")).toHaveLength(1);
-    });
-
-    test('showLess button if clicked renders summary view', () => {
-        EventWrapper.find(".showLess").simulate("click");
-        expect(EventWrapper.find(".summary")).toHaveLength(1);
-    })
-
+    EventWrapper.find('.showMore-details-btn').simulate('click');
+    expect(EventWrapper.state('collapsed')).toBe(true);
+  });
 });

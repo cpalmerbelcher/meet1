@@ -15,22 +15,29 @@ class Event extends Component {
 
     render() {
         const { event } = this.props;
+        const { collapsed } = this.state;
         
         return (
-            <div className="event">
-            <h1 className="eventTitle">{event.summary}</h1>
-            <h3 className ="eventLocation">{event.location}</h3>
-            <h3 className="eventDate">{new Date(event.start.dateTime).toString()}</h3>
-            {this.state.collapsed === false && (
-                <p className="eventDetails">{event.description}</p>
-            )}
-            {this.state.collapsed === true && (
-                <button id="eventButton" onClick={this.handleClick}>Show details</button>
-            )}
-            {this.state.collapsed === false && (
-                <button id="eventButton" onClick={this.handleClick}>Close details</button>
-            )}
-        </div>
+            <div className="Event">
+            <h2 className="summary">{event.summary}</h2>
+            <p className="start-date">{event.start.dateTime} ({event.start.timeZone})</p>
+            <br />
+            <p className="location">@{event.summary} | {event.location}</p>
+    
+            {!collapsed &&
+              <div className={`extra-details ${this.state.collapsed ? "showMore" : "showLess"}`}>
+                <h3>About Event</h3>
+                <a href={event.htmlLink} target="_blank" rel="noreferrer">
+                  See deatails on Google calendar
+                </a>
+                <p className="event-description">{event.description}</p>
+    
+              </div>
+            }
+            <button variant="primary" className={`${collapsed ? "showLess" : "showMore"}-details-btn`} onClick={this.handleClick}>
+              {collapsed ? "show Details" : "Hide Details"}
+            </button>
+          </div>
         );   
     }
 }
