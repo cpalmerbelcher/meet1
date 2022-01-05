@@ -1,21 +1,20 @@
 import { mockData } from "./mock-data";
 import axios from "axios";
 import { NProgress } from "nprogress";
-/**
- *
- * @param {*} events:
- * The following function should be in the “api.js” file.
- * This function takes an events array, then uses map to create a new array with only locations.
- * It will also remove all duplicates by creating another new array using the spread operator and spreading a Set.
- * The Set will remove all duplicates from the array.
+
+/*
+ This function takes an events array, then uses map to create a new array with only locations.
+ It will also remove all duplicates by creating another new array using the spread operator and spreading a Set.
+ The Set will remove all duplicates from the array.
  */
+
  export const extractLocations = (events) => {
     var extractLocations = events.map((event) => event.location);
     var locations = [...new Set(extractLocations)];
     return locations;
   };
 
-  const checkToken = async (accessToken) => {
+  export const checkToken = async (accessToken) => {
     const result = await fetch(`https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=${accessToken}`)
       .then((res) => res.json())
       .catch((error) => error.json());
@@ -31,16 +30,17 @@ import { NProgress } from "nprogress";
     }
 
     if (!navigator.onLine) {
-      const events = localStorage.getItem("lastEvents");
+      const data = localStorage.getItem("lastEvents");
       NProgress.done();
-      console.log(events);
-      return events ? JSON.parse(events).events:[];;
+      // console.log(events);
+      return data ? JSON.parse(data).events:[];;
     }
 
     const token = await getAccessToken();
 
     if (token) {
       removeQuery();
+      // eslint-disable-next-line
       const url = 'https://r8f8ogr1w3.execute-api.eu-central-1.amazonaws.com/dev/api/get-events' + '/' + token;
       const result = await axios.get(url);
       if (result.data) {
