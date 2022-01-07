@@ -1,6 +1,6 @@
 import { mockData } from "./mock-data";
 import axios from "axios";
-import { NProgress } from "nprogress";
+import NProgress from "nprogress";
 
 /*
  This function takes an events array, then uses map to create a new array with only locations.
