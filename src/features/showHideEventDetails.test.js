@@ -3,7 +3,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 import App from '../App';
 
-const feature = loadFeature('./src/features/showHideEventDetails.feature');
+const feature = loadFeature('./src/features/showHideEventsDetails.feature');
 
 defineFeature(feature, test => {
   test('When the user has not clicked on an event, each event element should be collapsed.', ({ given, when, then }) => {
@@ -18,7 +18,7 @@ defineFeature(feature, test => {
     });
 
     then('each event element should be collapsed.', () => {
-      expect(AppWrapper.find('.event__more-details')).toHaveLength(0);
+      expect(AppWrapper.find('.showMore-details-btn')).toHaveLength(0);
     });
   });
 
@@ -30,13 +30,11 @@ defineFeature(feature, test => {
 
     when('the user clicks on an event', () => {
       AppWrapper.update();
-      expect(AppWrapper.find('.event__details-button')).toHaveLength(2);
-      AppWrapper.find('.event__details-button').at(0).simulate('click');
-
+      AppWrapper.find('.showMore-details-btn').at(0).simulate('click');
     });
 
     then('the event element should expand.', () => {
-      expect(AppWrapper.find('.event__more-details')).toHaveLength(1);
+      expect(AppWrapper.find('.showLess-details-btn')).toHaveLength(1);
 
     });
   });
@@ -46,17 +44,16 @@ defineFeature(feature, test => {
     given('an event element is expanded', async () => {
       AppWrapper = await mount(<App />);
       AppWrapper.update();
-      AppWrapper.find('.event__details-button').at(0).simulate('click');
+      AppWrapper.find('.showMore-details-btn').at(0).simulate('click');
     });
 
     when('the user clicks on an event', () => {
-      AppWrapper.find('.event__details-button').at(0).simulate('click');
-      expect(AppWrapper.find('.event__more-details')).toHaveLength(0);
-
+      AppWrapper.find('.showLess-details-btn').at(0).simulate('click');
+      expect(AppWrapper.find('.showLess-details-btn')).toHaveLength(0);
     });
 
     then('the event element should collapse.', () => {
-      expect(AppWrapper.find('.event__more-details')).toHaveLength(0);
+      expect(AppWrapper.find('.showLess-details-btn')).toHaveLength(0);
     });
 
   });

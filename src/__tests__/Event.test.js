@@ -21,7 +21,7 @@ describe('<Event /> component', () => {
     expect(EventWrapper.find('.location')).toHaveLength(1);
   });
   test('renders the show/hide details button', () => {
-    expect(EventWrapper.find('.showLess-details-btn')).toHaveLength(1);
+    expect(EventWrapper.find('.showMore-details-btn')).toHaveLength(1);
   });
 
   //Scenario 1
@@ -36,15 +36,15 @@ describe('<Event /> component', () => {
     EventWrapper.setState({
       collapsed: true,
     });
-    EventWrapper.find('.showLess-details-btn').simulate('click');
+    EventWrapper.find('.showMore-details-btn').simulate('click');
     expect(EventWrapper.state('collapsed')).toBe(false);
   });
   //Scenario 3
-  test('click on showMore-details-btn button to hide the evet details', () => {
+  test('click on showLess-details-btn button to hide the evet details', () => {
     EventWrapper.setState({
       collapsed: false,
     });
-    EventWrapper.find('.showMore-details-btn').simulate('click');
+    EventWrapper.find('.showLess-details-btn').simulate('click');
     expect(EventWrapper.state('collapsed')).toBe(true);
   });
 });

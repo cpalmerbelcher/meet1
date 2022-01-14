@@ -1,24 +1,25 @@
 import { loadFeature, defineFeature } from "jest-cucumber";
 import React from 'react';
-import { mount } from 'enzyme';
-import App from '../App';
+import { mount, shallow } from 'enzyme';
+import NumberOfEvents from '../NumberOfEvents';
+import App from "../App";
 
 const feature = loadFeature('./src/features/specifyNumberOfEvents.feature');
 
 defineFeature(feature, test => {
 
     test('The app should display 32 events by defalt', ({ given, when, then }) => {
-        let AppWrapper;
+        let NumberOfEventsWrapper;
         given('the user has not specidfied a number of events to show', () => {
-            AppWrapper = mount(<App />);
+            NumberOfEventsWrapper=shallow(<NumberOfEvents />);
         });
 
         when('the user loads the data', () => {
-            AppWrapper.update();
+            NumberOfEventsWrapper.update();
         });
 
         then(/^(\d+) events should be displayed.$/, (arg0) => {
-            expect(AppWrapper.find('.event')).toHaveLength(2);
+            expect(NumberOfEventsWrapper.state('numberOfEvents')).toBe(32);
         });
     });
 
