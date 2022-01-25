@@ -4,6 +4,7 @@ import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 const EventGenre = ({ events }) => {
     const [data, setData] = useState([]);
     const colors = ['#d0427f', '#f8a01f', '#528272', '#f15f4b', '#7dbeb8', '#5c69a0'];
+    // eslint-disable-next-line
     useEffect(() => { setData(() => getData());}, [events]);
   
     const getData = () => {
