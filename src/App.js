@@ -7,7 +7,9 @@ import NumberOfEvents from './NumberOfEvents';
 import { getEvents, extractLocations, checkToken, getAccessToken } from './api';
 import WelcomeScreen from './WelcomeScreen';
 import { OfflineAlert } from './Alert';
-import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Sector, Cell } from 'recharts';
+import { mockData } from './mock-data';
+import EventGenre from './EventGenre';
 
 class App extends Component {
   state = {
@@ -54,13 +56,22 @@ class App extends Component {
     const searchParams = new URLSearchParams(window.location.search);
     const code = searchParams.get("code");
     this.setState({ showWelcomeScreen: !(code || isTokenValid) });
-    if ((code || isTokenValid) && this.mounted) {
-    getEvents().then((events) => {
+      if ((code || isTokenValid) && this.mounted) {
+        getEvents().then((events) => {
       if (this.mounted) {
         this.setState({ events, locations: extractLocations(events) });
         }
       });
     }
+      if (!navigator.onLine) {
+        this.setState({
+          OfflineAlertText: 'You are not connected to the internet'
+        });
+      } else {
+        this.setState({
+          OfflineAlertText: ''
+        });
+      }
   }
 
   componentWillUnmount(){
@@ -69,15 +80,19 @@ class App extends Component {
 
   render() {
     if (this.state.showWelcomeScreen === undefined) return <div className="App" />
+    const { NumberOfEvents, locations, events, OfflineAlertText } = this.state;
+
     return (
       <div className="App">
-        <OfflineAlert text={this.state.offlineText} />
         <h1>Meet App</h1>
         <h4>Choose your nearest city</h4>
-        <CitySearch locations={this.state.locations} updateEvents={this.updateEvents} /> 
-        <NumberOfEvents numberOfEvents={this.state.numberOfEvents} updateNumberOfEvents={this.updateNumberOfEvents} />
+        <CitySearch locations={locations} updateEvents={this.updateEvents} /> 
+        <NumberOfEvents NumberOfEvents={NumberOfEvents} updateNumberOfEvents={this.updateNumberOfEvents} />
         <h4>Events in each city</h4>
-        <ResponsiveContainer width="100%" height="100%">
+
+        <div className='data-vis-wrapper'>
+        <EventGenre events={events} />
+        <ResponsiveContainer height={400}>
         <ScatterChart
                 width={800}
                 height={400}
@@ -95,8 +110,9 @@ class App extends Component {
                 <Scatter data={this.getData()} fill="#8884d8" />
               </ScatterChart>
             </ResponsiveContainer>
-          );       
-        <EventList events={this.state.events} />
+            </div>     
+        <EventList events={events} />
+        <OfflineAlert text={OfflineAlertText} />
         <WelcomeScreen showWelcomeScreen={this.state.showWelcomeScreen} getAccessToken={() => { getAccessToken() }} />
       </div>
     );
