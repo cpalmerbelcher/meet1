@@ -5,7 +5,7 @@ import EventList from './EventList';
 import CitySearch from './CitySearch';
 import NumberOfEvents from './NumberOfEvents';
 import { getEvents, extractLocations, checkToken, getAccessToken } from './api';
-import WelcomeScreen from './WelcomeScreen';
+// import WelcomeScreen from './WelcomeScreen';
 import { OfflineAlert } from './Alert';
 import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Sector, Cell } from 'recharts';
 import { mockData } from './mock-data';
@@ -17,7 +17,7 @@ class App extends Component {
     locations: [],
     currentLocation: "all",
     numberOfEvents: 32,
-    showWelcomeScreen: undefined
+    // showWelcomeScreen: undefined
   }
 
   updateEvents = (location) => {
@@ -93,8 +93,6 @@ class App extends Component {
         <EventGenre events={events} />
         <ResponsiveContainer height={400}>
         <ScatterChart
-                width={800}
-                height={400}
                 margin={{
                   top: 20,
                   right: 20,
@@ -112,7 +110,7 @@ class App extends Component {
             </div>     
         <EventList events={events} />
         <OfflineAlert text={OfflineAlertText} />
-        <WelcomeScreen showWelcomeScreen={this.state.showWelcomeScreen} getAccessToken={() => { getAccessToken() }} />
+        {/* <WelcomeScreen showWelcomeScreen={this.state.showWelcomeScreen} getAccessToken={() => { getAccessToken() }} /> */}
       </div>
     );
   }
